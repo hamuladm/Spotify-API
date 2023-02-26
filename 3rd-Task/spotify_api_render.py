@@ -71,10 +71,10 @@ def print_result(artist: str) -> list:
     '''
     token = get_token()
     result = search_for_artist(token, artist)
-    print(f"ID of the artist: {result['artists']['items'][0]['id']}")
-    print(f"Full name of the artist: {result['artists']['items'][0]['name']}")
-    print(f"The most popular track: {result['tracks']['items'][0]['name']}")
-    print(f"Available countries for the track: {' , '.join(result['tracks']['items'][0]['available_markets'])}")
+    # print(f"ID of the artist: {result['artists']['items'][0]['id']}")
+    # print(f"Full name of the artist: {result['artists']['items'][0]['name']}")
+    # print(f"The most popular track: {result['tracks']['items'][0]['name']}")
+    # print(f"Available countries for the track: {' , '.join(result['tracks']['items'][0]['available_markets'])}")
 
     return result['tracks']['items'][0]['available_markets']
 
@@ -89,4 +89,5 @@ if __name__ == '__main__':
     # print(result['tracks']['items'][0]['name']) # The most popular track
     # print(result['tracks']['items'][0]['available_markets']) # Available countries for the track
 
-    print_result('Type O Negative')
+    #print(print_result('Type O Negative'))
+    pass
