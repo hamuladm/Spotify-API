@@ -16,8 +16,9 @@ client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
 
 
-def get_token():
+def get_token() -> str:
     '''
+    () -> str
     Gets token
     '''
     auth_str = client_id + ':' + client_secret
@@ -38,53 +39,54 @@ def get_token():
     return token
 
 
-def get_auth_header(token):
+def get_auth_header(token: str) -> dict:
     '''
+    (str) -> dict
     Returns header
     '''
     return {'Authorization': 'Bearer ' + token}
 
 
-def search_for_artist(token, artist):
+def search_for_artist(token: str, artist: str) -> dict:
     '''
+    (str, str) -> dict
     Searches for artist
     '''
     url = 'https://api.spotify.com/v1/search'
     headers = get_auth_header(token)
-    query = f'?q={artist}&type=track&limit=5'
+    query = f'?q={artist}&type=artist,track&limit=1'
 
     query_url = url + query
     result = get(query_url, headers = headers)
-    json_result = json.loads(result.content)['tracks']
+    json_result = json.loads(result.content)
     if not json_result:
         print('No such artist!')
         return
     return json_result
 
 
-def search_for_top_tracks(token, artist_id):
+def print_result(artist: str) -> 0:
     '''
-    Searches for top artist's track
+    Prints result
     '''
-    url = f'https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US'
-    headers = get_auth_header(token)
-    
-    result = get(url, headers = headers)
-    json_result = json.loads(result.content)['tracks']
-    if not json_result:
-        print('No such artist!')
-        return
-    return json_result
+    token = get_token()
+    result = search_for_artist(token, artist)
+    print(f"ID of the artist: {result['artists']['items'][0]['id']}")
+    print(f"Full name of the artist: {result['artists']['items'][0]['name']}")
+    print(f"The most popular track: {result['tracks']['items'][0]['name']}")
+    print(f"Available countries for the track: {' , '.join(result['tracks']['items'][0]['available_markets'])}")
+
+    return 0
 
 
 
 if __name__ == '__main__':
-    token = get_token()
-    result = search_for_artist(token, 'Metallica')
-    for song in result['items']:
-        print(song['name'])
-    # artist_id = result['id']
-    # songs = search_for_top_tracks(token, artist_id)
+    # token = get_token()
+    # result = search_for_artist(token, 'Ghostemane')
 
-    # for song in songs:
-    #     print(song['name'])
+    # print(result['artists']['items'][0]['id']) # ID of the artist
+    # print(result['artists']['items'][0]['name']) # Full name of the artist
+    # print(result['tracks']['items'][0]['name']) # The most popular track
+    # print(result['tracks']['items'][0]['available_markets']) # Available countries for the track
+
+    print_result('Type O Negative')
