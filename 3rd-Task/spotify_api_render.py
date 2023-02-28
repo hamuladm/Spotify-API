@@ -3,17 +3,16 @@ Laboratorna 2
 '''
 
 
-from dotenv import load_dotenv
 from requests import post, get
-import os
 import base64
 import json
 
 
-load_dotenv()
+CLIENT_ID = '9eb6f9d180ed4c32b53d963c1d0c2ddb'
+CLIENT_SECRET = '8378e19bce2644aab6ef5e51638843ad'
 
-client_id = os.getenv('CLIENT_ID')
-client_secret = os.getenv('CLIENT_SECRET')
+# client_id = os.getenv('CLIENT_ID')
+# client_secret = os.getenv('CLIENT_SECRET')
 
 
 def get_token() -> str:
@@ -21,7 +20,7 @@ def get_token() -> str:
     () -> str
     Gets token
     '''
-    auth_str = client_id + ':' + client_secret
+    auth_str = CLIENT_ID + ':' + CLIENT_SECRET
     auth_bytes = auth_str.encode('utf-8')
     auth_base64 = str(base64.b64encode(auth_bytes), 'utf-8')
 
