@@ -38,21 +38,23 @@ def get_coords(countries: list) -> list:
         except GeocoderUnavailable:
             continue
 
-    return locations, artist_name
+    return countries_list, locations, artist_name
 
 
 def mark_on_map(coords: list) -> 0:
     '''
     Marks on a map
     '''
-    coords_list, artist_name = coords
+    countries_list, coords_list, artist_name = coords
+    result = zip(countries_list, coords_list)
     map = folium.Map()
     fg_0 = folium.FeatureGroup(name = 'Locations for the top track')
 
-    for elem in coords_list:
+    for elem in result:
         fg_0.add_child(
             folium.Marker(
-                location = elem,
+                location = elem[1],
+                popup = elem[0],
                 icon = folium.Icon(color = 'red'))
         )
 
